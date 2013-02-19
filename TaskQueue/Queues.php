@@ -33,7 +33,7 @@ class Queues {
 			}
 			else
 			{
-				$this->repository->save($queue);
+				$this->repository()->save($queue);
 			}
 		}
 	}
@@ -45,7 +45,7 @@ class Queues {
 
 	public function runAll($async = false)
 	{
-		foreach($this->repository->getAll() as $queue)
+		foreach($this->repository()->getAll() as $queue)
 		{
 			if($async)
 			{
@@ -55,13 +55,13 @@ class Queues {
 			{
 				$this->run($queue);
 			}
-			$this->repository->delete($queue);
+			$this->repository()->delete($queue);
 		}
 	}
 
 	public function run(Queue $queue)
 	{
-		$command = array($queue->task) + $queue->arguments;
+		$command = array_merge((array) $queue->task, $queue->arguments);
 
 		Command::run($command);
 	}
