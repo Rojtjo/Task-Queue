@@ -9,7 +9,7 @@ class Taskqueue_Create_Queue_Table {
 	 */
 	public function up()
 	{
-		Schema::table('TaskQueue', function($table)
+		Schema::table(Config::get('task-queue::queues.table'), function($table)
 		{
 			$table->create();
 			$table->increments('id');
@@ -25,7 +25,7 @@ class Taskqueue_Create_Queue_Table {
 	 */
 	public function down()
 	{
-		Schema::drop('TaskQueue');
+		Schema::drop(Config::get('task-queue::queues.table'));
 	}
 
 }
